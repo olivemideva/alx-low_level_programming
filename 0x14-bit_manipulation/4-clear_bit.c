@@ -1,38 +1,24 @@
 #include "main.h"
-#define  BIT_SIZE 8
+#include <stdio.h>
 /**
- * powX - powers a number b to the p's power
- * @b: base
- * @p: power
- * Return: return b to the power of a
- */
-unsigned long int powX(int b, int p)
-{
-	unsigned long int ans = 1;
-
-	while (p)
-	{
-		ans *= b;
-		p--;
-	}
-	return (ans);
-}
-
-/**
- * clear_bit - sets bit to zero at index index
- * @n: input integer
- * @index: returns the value of a bit at a given index
- * Return: 1 for ssucess -1 for failure
+ * clear_bit - set the value of a bit to 0 at a given index
+ * @n: pointer to decimal number to change
+ * @index: index position to change
+ * Return: 1 if it worked, -1 if error
  */
 int clear_bit(unsigned long int *n, unsigned int index)
 {
-	unsigned long int test;
+	unsigned long int i;
+	unsigned int hold;
 
-	if (index > sizeof(n) * BIT_SIZE - 1)
+	if (index > 64)
 		return (-1);
+	hold = index;
+	for (i = 1; hold > 0; i *= 2, hold--)
+		;
 
-	test = powX(2, index);
-	*n = (*n & test) ? *n ^ test : *n;
+	if ((*n >> index) & 1)
+		*n -= i;
+
 	return (1);
-
 }
